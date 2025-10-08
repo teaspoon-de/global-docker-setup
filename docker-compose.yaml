@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: dev_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - devnet
+
+  php:
+    image: php:8.2-fpm
+    container_name: dev_php
+    volumes:
+      - apt-cache:/var/cache/apt
+      - ./www:/var/www/html
+    working_dir: /var/www/html
+    command: >
+      bash -c "
+      apt-get update &&
+      apt-get install -y libzip-dev libpng-dev libjpeg-dev libfreetype6-dev &&
+      docker-php-ext-install mysqli pdo pdo_mysql &&
+      echo '✅ PHP-Extensions installiert' &&
+      php-fpm
+      "
+    networks:
+      - devnet
+
+  mysql:
+    image: mysql:8.0
+    container_name: dev_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpass
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - devnet
+
+volumes:
+  apt-cache:
+
+networks:
+  devnet:
+    driver: bridge
