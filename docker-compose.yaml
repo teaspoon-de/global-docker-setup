@@ -1,6 +1,6 @@
 services:
 
-  # Global Server, Reverse Proxy - NGINX
+  # Reverse Proxy - NGINX
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -12,9 +12,8 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - mysql
-      - quint-felicity
     networks:
-      - frontend
+      - webnet
 
   # Datenbank - MySQL
   mysql:
@@ -31,21 +30,12 @@ services:
     ports:
       - "3306:3306" # unnötog? gui geht prob eh nicht
     networks:
-      - backend
-
-  # WEBSITES -----------------------------------------------
-  # --------------------------------------------------------
-
-  # Quint Felicity - quint-felicity.de
-  quint-felicity:
-    image: ghcr.io/teaspoon-de/quint-felicity:latest
-    container_name: quint-felicity
-    depends_on:
-      - mysql
-    networks:
-      - frontend
-      - backend
+      - dbnet
 
 networks:
-  frontend:
-  backend:
+  webnet:
+    name: webnet
+    driver: bridge
+  dbnet:
+    name: dbnet
+    driver: bridge
