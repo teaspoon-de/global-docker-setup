@@ -5,20 +5,16 @@
 
 set -e  # Bricht bei Fehlern ab
 
-# Pfad zur Token-Datei
-TOKEN_FILE="$HOME/.ghcr_token"
-USERNAME="finnkit05"
-
 # Prüfen, ob Token-Datei existiert
-if [ ! -f "$TOKEN_FILE" ]; then
-  echo "❌ Token-Datei nicht gefunden: $TOKEN_FILE"
-  echo "Erstellen durch: echo '<token>' > $TOKEN_FILE && chmod 600 $TOKEN_FILE"
+if [ ! -f "$GHCR_TOKEN_FILE" ]; then
+  echo "❌ Token-Datei nicht gefunden: $GHCR_TOKEN_FILE"
+  echo "Erstellen durch: echo '<token>' > $GHCR_TOKEN_FILE && chmod 600 $GHCR_TOKEN_FILE"
   exit 1
 fi
 
 # Login bei GHCR
 echo "🔐 GitHub Container Registry Login ..."
-cat "$TOKEN_FILE" | docker login ghcr.io -u "$USERNAME" --password-stdin
+cat "$GHCR_TOKEN_FILE" | docker login ghcr.io -u "$GHCR_USERNAME" --password-stdin
 
 # Images aktualisieren und Container starten
 echo "🚀 Images aktualisieren ..."
