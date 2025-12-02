@@ -94,7 +94,7 @@ Schritte im Script:
 - **MySQL**: Root-Passwort über `.env`  
 - **NGINX-Proxy**:  
   - Zertifikate in `/etc/nginx/certs`  
-  - Vhost-Konfigurationen in `/etc/nginx/vhost.d`  
+  - Vhost-Konfigurationen in `nginx/vhost.d`  
   - DH-Parameter in `nginx/dhparam.pem`  
 - **LetsEncrypt Companion**: Automatische Zertifikatserneuerung  
 - **Docker-Netzwerke**:  
