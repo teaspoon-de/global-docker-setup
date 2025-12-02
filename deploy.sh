@@ -5,6 +5,16 @@
 
 set -e  # Bricht bei Fehlern ab
 
+# Load .env
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+    # HOME expandieren
+    GHCR_TOKEN_FILE=$(eval echo $GHCR_TOKEN_FILE)
+else
+    echo "❌ .env Datei nicht gefunden!"
+    exit 1
+fi
+
 # Prüfen, ob Token-Datei existiert
 if [ ! -f "$GHCR_TOKEN_FILE" ]; then
   echo "❌ Token-Datei nicht gefunden: $GHCR_TOKEN_FILE"
