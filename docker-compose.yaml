@@ -42,14 +42,9 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root # das kann nicht sicher sein
-      MYSQL_DATABASE: testdb
-      MYSQL_USER: devuser
-      MYSQL_PASSWORD: devpass
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - ~/mysql/data:/var/lib/mysql
-    ports:
-      - "3306:3306" # unnötog? gui geht prob eh nicht
     networks:
       - dbnet
 
