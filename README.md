@@ -15,6 +15,8 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
 - [Wichtigste Dateien](#wichtigste-dateien-im-repo)  
 - [Einrichtung](#einrichtung)  
 - [Deployment](#deployment)  
+- [Docker-Konfiguration](#dockerkonfiguration)  
+- [Zusammenfassung](#zusammenfassung)  
 
 ---
 
@@ -89,7 +91,7 @@ Schritte im Script:
 
 ---
 
-## Konfiguration
+## Docker-Konfiguration
 
 - **MySQL**: Root-Passwort über `.env`  
 - **NGINX-Proxy**:  
