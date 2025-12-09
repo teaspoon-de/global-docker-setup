@@ -74,20 +74,21 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
    Erstelle eine `docker-compose.override.yml` im Root-Verzeichnis, um die Datenbank-Initialisierungsskripte und Passwörter der Websites korrekt in Docker zu mounten. Also nach folgendem Schema:
 
    ```yaml
-   mysql:
-     environment:
-       MYSQL_PASSWORD_WEBSITE_1: ${MYSQL_PASSWORD_WEBSITE_1}
-       MYSQL_PASSWORD_WEBSITE_2: ${MYSQL_PASSWORD_WEBSITE_2}
-       ...
+   services:
+     mysql:
+       environment:
+         MYSQL_PASSWORD_WEBSITE_1: ${MYSQL_PASSWORD_WEBSITE_1}
+         MYSQL_PASSWORD_WEBSITE_2: ${MYSQL_PASSWORD_WEBSITE_2}
+         ...
 
-     volumes:
-       # WEBSITE 1
-       - ~/<website1-path>/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/website1-01.sql
-       - ~/<website1-path>/db-init/02-create-user.sh:/docker-entrypoint-initdb.d/website1-02.sh
-       - ~/<website1-path>/db-init/03-import-data.sql:/docker-entrypoint-initdb.d/website1-03.sql
-       # WEBSITE 2
-       - ~/<website2-path>/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/website2-01.sql
-       ...
+       volumes:
+         # WEBSITE 1
+         - ~/<website1-path>/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/website1-01.sql
+         - ~/<website1-path>/db-init/02-create-user.sh:/docker-entrypoint-initdb.d/website1-02.sh
+         - ~/<website1-path>/db-init/03-import-data.sql:/docker-entrypoint-initdb.d/website1-03.sql
+         # WEBSITE 2
+         - ~/<website2-path>/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/website2-01.sql
+         ...
    ```
 
 4. **Ordnerrechte prüfen**  
