@@ -33,9 +33,10 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
 | Datei | Beschreibung |
 |-------|-------------|
 | `docker-compose.yaml` | Konfiguration globale Services: NGINX-Proxy, LetsEncrypt Companion, MySQL |
-| `deploy.sh` | Deployment-Skript: Login bei GHCR, Images pullen, Container starten, Cleanup |
+| `deploy.sh` | Deployment-Skript: GHCR-Login, Images pullen, Container starten, Cleanup (alte Container löschen) |
 | `nginx/dhparam_setup.sh` | Script zum Erstellen von `dhparam.pem` für TLS Perfect Forward Secrecy |
-| `.env` (nicht enthalten) | Enthält geheime Variablen für MySQL und GHCR |
+| `.env` (nicht enthalten) | Enthält SQL-Passwörter und GHCR-Token |
+| `docker-compose.override.yml` (nicht enthalten) | Mountet Websitespezifisch DB-Entrypoints und Passwörter |
 
 ---
 
@@ -51,7 +52,7 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
    Erstellt eine 4096-Bit `dhparam.pem` für sichere TLS-Verbindungen
 
 2. **.env Datei anlegen**  
-   Erstelle eine `.env` im Root-Verzeichnis mit folgendem Inhalt:
+   Erstelle eine `.env` im Root-Verzeichnis mit folgenden Variablen:
 
    ```bash
    MYSQL_ROOT_PASSWORD=<passwort>
@@ -73,7 +74,7 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
 3. **MySQL Docker Override anlegen (Website-spezifisch)**  
    Erstelle eine `docker-compose.override.yml` im Root-Verzeichnis, um die Datenbank-Initialisierungsskripte und Passwörter der Websites korrekt in Docker zu mounten. Also nach folgendem Schema:
 
-   ```yaml
+   ```yml
    services:
      mysql:
        environment:
@@ -110,7 +111,7 @@ Schritte im Script:
 1. `.env` laden und Variablen exportieren  
 2. GHCR Login durchführen  
 3. Docker Images aktualisieren (`docker compose pull`)  
-4. Container starten (`docker compose up -d --remove-orphans`)  
+4. Container starten, Override (`docker compose up -d --remove-orphans`)  
 5. Cleanup alter Ressourcen (`docker system prune -af --volumes`)  
 
 ---
