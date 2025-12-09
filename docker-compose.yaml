@@ -43,6 +43,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD_QUINT_FELICITY: ${MYSQL_PASSWORD_QUINT_FELICITY}
     volumes:
       - ~/mysql/data:/var/lib/mysql
       # QUINT FELICITY
