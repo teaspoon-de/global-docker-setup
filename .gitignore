@@ -1,3 +1,4 @@
 .env
+docker-compose.override.yml
 nginx/acme.sh/*
 nginx/dhparam.pem

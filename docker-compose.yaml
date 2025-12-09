@@ -43,13 +43,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_PASSWORD_QUINT_FELICITY: ${MYSQL_PASSWORD_QUINT_FELICITY}
     volumes:
       - ~/mysql/data:/var/lib/mysql
-      # QUINT FELICITY
-      - ~/websites/quint-felicity/member-quint-felicity/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/quint-felicity-01.sql
-      - ~/websites/quint-felicity/member-quint-felicity/db-init/02-create-user.sh:/docker-entrypoint-initdb.d/quint-felicity-02.sh
-      - ~/websites/quint-felicity/member-quint-felicity/db-init/03-import-data.sql:/docker-entrypoint-initdb.d/quint-felicity-03.sql
     networks:
       - dbnet
 
