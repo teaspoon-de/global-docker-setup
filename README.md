@@ -57,6 +57,9 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
    MYSQL_ROOT_PASSWORD=<passwort>
    GHCR_TOKEN_FILE=<Pfad_zum_GHCR_Token_File>
    GHCR_USERNAME=<GitHub_Username>
+   MYSQL_PASSWORD_WEBSITE_1=<mysql_password>
+   MYSQL_PASSWORD_WEBSITE_2=<mysql_password>
+   ...
    ```
 
    > GHCR Token über GitHub → Settings → Developer settings → Personal access tokens (classic) → `write:packages` erstellen.  
@@ -67,7 +70,27 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
    chmod 600 $HOME/.ghcr_token
    ```
 
-3. **Ordnerrechte prüfen**  
+3. **MySQL Docker Override anlegen (Website-spezifisch)**  
+   Erstelle eine `docker-compose.override.yml` im Root-Verzeichnis, um die Datenbank-Initialisierungsskripte und Passwörter der Websites korrekt in Docker zu mounten. Also nach folgendem Schema:
+
+   ```yaml
+   mysql:
+     environment:
+       MYSQL_PASSWORD_WEBSITE_1: ${MYSQL_PASSWORD_WEBSITE_1}
+       MYSQL_PASSWORD_WEBSITE_2: ${MYSQL_PASSWORD_WEBSITE_2}
+       ...
+
+     volumes:
+       # WEBSITE 1
+       - ~/<website1-path>/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/website1-01.sql
+       - ~/<website1-path>/db-init/02-create-user.sh:/docker-entrypoint-initdb.d/website1-02.sh
+       - ~/<website1-path>/db-init/03-import-data.sql:/docker-entrypoint-initdb.d/website1-03.sql
+       # WEBSITE 2
+       - ~/<website2-path>/db-init/01-db-init.sql:/docker-entrypoint-initdb.d/website2-01.sql
+       ...
+   ```
+
+4. **Ordnerrechte prüfen**  
    - `/etc/nginx/certs` → NGINX kann die Zertifikate lesen/schreiben  
    - `/usr/share/nginx/html` → Volumes für HTML-Dateien  
 
