@@ -36,7 +36,7 @@ Dieses Repository enthält die globale Docker-Ebene des Produktions-Servers
 | `deploy.sh` | Deployment-Skript: GHCR-Login, Images pullen, Container starten, Cleanup (alte Container löschen) |
 | `nginx/dhparam_setup.sh` | Script zum Erstellen von `dhparam.pem` für TLS Perfect Forward Secrecy |
 | `.env` (nicht enthalten) | Enthält SQL-Passwörter und GHCR-Token |
-| `docker-compose.override.yml` (nicht enthalten) | Mountet Websitespezifisch DB-Entrypoints und Passwörter |
+| `docker-compose.override.yml` (nicht enthalten) | Mountet Website-spezifisch DB-Entrypoints und Passwörter |
 
 ---
 
